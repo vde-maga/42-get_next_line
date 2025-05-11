@@ -15,7 +15,7 @@
 static char	*ft_get_buffer(int fd, char *stash)
 {
 	char	*buffer;
-	size_t	bytes_read;
+	ssize_t	bytes_read;
 	char	*temp;
 
 	buffer = malloc(BUFFER_SIZE + 1);
@@ -37,14 +37,14 @@ static char	*ft_get_buffer(int fd, char *stash)
 	return (stash);
 }
 
-static char	ft_get_line(char *stash)
+static char	*ft_get_line(char *stash)
 {
 	char	*line;
 	size_t	i;
 
 	i = 0;
 	if (!stash || stash[0] == '\0')
-		return (0);
+		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (stash[i] == '\n')
@@ -62,6 +62,8 @@ static char	*ft_get_next(char *stash)
 	if (!stash)
 		return (NULL);
 	while (stash[i] && stash[i] != '\n')
+		i++;
+	if (stash[i] == '\n')
 		i++;
 	if (!stash[i])
 	{
